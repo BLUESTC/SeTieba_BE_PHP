@@ -11,13 +11,14 @@ class Ba extends Model
 	 * @var string
 	 */
 	protected $table = 'bas';
+    protected $primaryKey ='b_id';
 
 	/**
 	 * The attributes that are mass assignable.
 	 *
 	 * @var array
 	 */
-	protected $fillable = ['b_id','name'];
+	protected $fillable = ['name'];
 
 
 }

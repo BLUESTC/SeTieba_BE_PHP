@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use AuthenticatesAndRegistersUsers;
 use Auth;
 use DB;
+use App\User;
 
 
 class AuthController extends Controller {
@@ -100,24 +101,24 @@ class AuthController extends Controller {
         Auth::logout();
     }
 
-
-
-
     public function register(Request $request){
         $userName=$request->input('username');
         $password=$request->input('password');
         $email=$request->input('email');
-        $array=DB::table('users')->where('email',$email)->get(); 
-        if ($array) return response()->json(['errno'=> 1,'msg'=>"sorry,your email has been registered"]);
-        else {
-            // DB::table('users')->increment('','',array('name'=>$userName,'email'=>$email,'password'=>$password));
-            DB::insert('insert into users (name,email,password) values(?,?,?)',[$userName,$email,$password]);
+
+        if((!$userName)||(!$password)||(!$email)){
+            return response()->json(['errno'=> 2,'msg'=>"username,password,email are required"]);
+        }else if(User::where("email",$email)->get()->count()!==0){
+            return response()->json(['errno'=> 1,'msg'=>"sorry,your email has been registered"]);
+        }else{
+            $user=new User;
+            $user->name=$userName;
+            $user->password=bcrypt($password);
+            $user->email=$email;
+            $user->save();
             return response()->json(['errno'=>0,'msg'=> "thanks for register in:".$userName]);
-
         }
-
     }
-
 
 
 }

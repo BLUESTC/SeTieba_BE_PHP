@@ -4,13 +4,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Floor extends Model {
 	protected $table = 'floors';
+    protected $primaryKey ='fid';
 
 	/**
 	 * The attributes that are mass assignable.
 	 *
 	 * @var array
 	 */
-	protected $fillable = ['uid', 'fid','pid', 'content','pics','at_users','created_at','updated_at'];
+	protected $fillable = ['uid','pid', 'content','pics','at_users'];
 
 	//
 

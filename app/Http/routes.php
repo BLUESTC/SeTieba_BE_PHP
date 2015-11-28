@@ -21,6 +21,6 @@ Route::controllers([
 ]);
 
 Route::post('API/auth','API\AuthController@login');
-//Route::get('API/logout','API\AuthController@logout');
+Route::get('API/logout','API\AuthController@logout');
 Route::post('API/register','API\AuthController@Register');
 

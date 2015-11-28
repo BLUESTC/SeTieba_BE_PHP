@@ -11,12 +11,13 @@ class School extends Model {
 	 * @var string
 	 */
 	protected $table = 'schools';
+    protected $primaryKey ='sc_id';
 
 	/**
 	 * The attributes that are mass assignable.
 	 *
 	 * @var array
 	 */
-	protected $fillable = ['sc_id','name', 'email_tail','pics','text'];
+	protected $fillable = ['name', 'email_tail','pics','text'];
 
 }
