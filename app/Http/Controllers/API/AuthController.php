@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use AuthenticatesAndRegistersUsers;
 use Auth;
-use DB;
 use App\User;
 
 

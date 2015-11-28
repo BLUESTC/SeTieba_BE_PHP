@@ -20,7 +20,10 @@ Route::controllers([
 	'password' => 'Auth\PasswordController',
 ]);
 
-Route::post('API/auth','API\AuthController@login');
-Route::get('API/logout','API\AuthController@logout');
-Route::post('API/register','API\AuthController@Register');
+Route::post('api/auth','API\AuthController@login');
+Route::get('api/logout','API\AuthController@logout');
+Route::post('api/register','API\AuthController@Register');
+
+Route::get('api/hotPosts','API\PostController@index');
+Route::resource('/api/post','API\PostController');
 
