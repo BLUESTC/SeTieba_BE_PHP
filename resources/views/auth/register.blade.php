@@ -48,6 +48,26 @@
 								<input type="password" class="form-control" name="password_confirmation">
 							</div>
 						</div>
+                        <div class="form-group">
+                             <label class="col-md-4 control-label">Gender</label>
+                             <div class="col-md-6">
+                                 <input type="radio"  name="gender" value="M"/>男
+                                <input type="radio"  name="gender" value="F"/>女</br>
+                             </div>
+                         </div>
+                        <div class="form-group">
+                              <label class="col-md-4 control-label">Tel/Mobile phone</label>
+                              <div class="col-md-6">
+                                  <input type="text" class="form-control" name="tel">
+                              </div>
+                         </div>
+                        <div class="form-group">
+                             <label class="col-md-4 control-label">birth</label>
+                             <div class="col-md-6">
+                                 <input type="date" class="form-control" name="birth">
+                              </div>
+                          </div>
+
 
 						<div class="form-group">
 							<div class="col-md-6 col-md-offset-4">

@@ -20,10 +20,7 @@ Route::controllers([
 	'password' => 'Auth\PasswordController',
 ]);
 
-Route::any('API/auth','API\AuthController@login');
-//Api route
-//Route::group(['namespace'=>'API'],function()
-  //  {
-        //auth api
-    //    Route::any('auth','API\AuthController@login');
-    //});
+Route::post('API/auth','API\AuthController@login');
+//Route::get('API/logout','API\AuthController@logout');
+Route::post('API/register','API\AuthController@Register');
+
