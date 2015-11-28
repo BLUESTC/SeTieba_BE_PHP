@@ -18,6 +18,7 @@ class CreateCommentsTable extends Migration {
             $table->integer('from_id')->unsigned();
             $table->integer('to_id')->unsigned();
             $table->integer('to_pid')->unsigned();
+            $table->integer('to_fid')->unsigned();
             $table->string('content');
             $table->json('pics')->nullable();
             $table->json('at_users')->nullable();
