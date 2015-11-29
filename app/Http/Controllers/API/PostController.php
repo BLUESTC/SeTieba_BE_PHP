@@ -26,11 +26,11 @@ class PostController extends Controller {
         $limit=$request->input("limit");
         $skip=$request->input("skip");
         if(Auth::check()){
-            $limit=null?20:$limit;
-            $skip=null?0:$skip;
+            $limit=$limit==null?20:$limit;
+            $skip=$skip==null?0:$skip;
         }else{
             $limit=10;
-            $skip=0;
+            $skip=1;
         }
         $hotPosts=Post::orderBy("last_comment_at","desc")->skip($skip)->take($limit)->get();
         return response()->json(["errno"=>0,"msg"=>"succes","hotSum"=>$hotPosts->count(),"posts"=>$hotPosts]);
@@ -103,7 +103,7 @@ class PostController extends Controller {
 		$limit=$request->input("limit");
 		$post=Post::find($id);
 		if($post){
-			$floors=$post->floors()->skip($skip==null?0:$skip)->limit($limit==null?10:$limit)->get();
+			$floors=$post->floors()->take($limit===null?10:$limit)->skip($skip===null?1:$skip)->get();
 			$fArr=array();
 			foreach($floors as $k=>$f){
 				$coms=$f->comments;
