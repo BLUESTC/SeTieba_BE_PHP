@@ -18,6 +18,6 @@ class School extends Model {
 	 *
 	 * @var array
 	 */
-	protected $fillable = ['name', 'email_tail','pics','desc'];
+	protected $fillable = ['name', 'email_tail','pics','desc_text'];
 
 }

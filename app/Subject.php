@@ -11,6 +11,6 @@ class Subject extends Model {
 	 *
 	 * @var array
 	 */
-	protected $fillable = ['subject','pics','desc'];
+	protected $fillable = ['subject','pics','desc_text'];
 
 }

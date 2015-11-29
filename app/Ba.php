@@ -18,6 +18,6 @@ class Ba extends Model
 	 *
 	 * @var array
 	 */
-	protected $fillable = ['name','desc','pics'];
+	protected $fillable = ['name','desc_text','pics'];
 
 }

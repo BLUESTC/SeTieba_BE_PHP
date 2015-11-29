@@ -17,7 +17,7 @@ class CreateSubjectsTable extends Migration {
             $table->increments('sid');
             $table->string('subject');
             $table->json('pics')->nullable();
-            $table->string('desc');
+            $table->string('desc_text');
 			$table->timestamps();
 		});
 	}
