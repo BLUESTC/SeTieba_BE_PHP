@@ -95,7 +95,10 @@ class PostController extends Controller {
 		if(!(Auth::check())){
             return response()->json(["errno"=>2,"msg"=>"require authentication"]);
         }
-		$id=$request->input('id');
+		$id=$request->input('pid');
+		if(!$id){
+			return response()->json(["errno"=>1,"msg"=>"require pid"]);
+		}
 		$skip=$request->input("skip");
 		$limit=$request->input("limit");
 		$post=Post::find($id);
