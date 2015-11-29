@@ -45,3 +45,4 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     public function comments(){
         return $this->hasMany('App\Comment','from_id','id');
     }
+}
