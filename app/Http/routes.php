@@ -27,4 +27,5 @@ Route::post('api/register','API\AuthController@Register');
 Route::get('api/hotPosts','API\PostController@index');
 Route::resource('/api/post','API\PostController');
 Route::get('api/floorDetail','API\PostController@floorsAndComments');
-
+Route::post('/api/replyPost','API\FloorController@store');
+Route::post('/api/comFloor','API\CommentController@store');

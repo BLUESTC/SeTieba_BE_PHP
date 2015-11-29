@@ -4,6 +4,9 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
+use Auth;
+use App\Comment;
+use App\Floor;
 /* 
  *评论控制器
  */
@@ -34,9 +37,35 @@ class CommentController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function store()
+	public function store(Request $request)
 	{
-		//
+		if(!Auth::check()){
+			return response()->json(["errno"=>2,"msg"=>"require authentication"]);
+		}
+		$fid=$request->input("fid");
+		$content=$request->input("content");
+		
+		if((!$fid)||(!$content)){
+			return response()->json(["errno"=>1,"msg"=>"require fid and content"]);
+		}
+		
+		$floor=Floor::find($fid);
+		if(!$floor){
+			return response()->json(["errno"=>3,"msg"=>"floor not found"]);
+		}
+		
+		$comm=new Comment;
+		$comm->from_id=Auth::user()->id;
+		$comm->to_id=$floor->uid;
+		$comm->to_pid=$floor->pid;
+		$comm->to_fid=$floor->fid;
+		$comm->content=$content;
+		$comm->at_users=$request->input('at_users');
+		$comm->pics-$request->input('pics');
+		
+		$comm->save();
+		return response()->json(["errno"=>0,"msg"=>"success","comment"=>$comm]);
+		
 	}
 
 	/**
