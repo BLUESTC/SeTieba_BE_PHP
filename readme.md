@@ -1,23 +1,33 @@
-## Laravel PHP Framework
+# SeTieba_BE_PHP
 
-[![Build Status](https://travis-ci.org/laravel/framework.svg)](https://travis-ci.org/laravel/framework)
-[![Total Downloads](https://poser.pugx.org/laravel/framework/downloads.svg)](https://packagist.org/packages/laravel/framework)
-[![Latest Stable Version](https://poser.pugx.org/laravel/framework/v/stable.svg)](https://packagist.org/packages/laravel/framework)
-[![Latest Unstable Version](https://poser.pugx.org/laravel/framework/v/unstable.svg)](https://packagist.org/packages/laravel/framework)
-[![License](https://poser.pugx.org/laravel/framework/license.svg)](https://packagist.org/packages/laravel/framework)
+SeTieba需求文档
+最后修改2015/11/28 by 刘亚军
+1.  用户注册
+    a)  基础信息：用户名，密码，邮箱
+    b)  上传头像
+    c)  完善学校，性别，电话等信息
+2.  用户登录
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as authentication, routing, sessions, queueing, and caching.
 
-Laravel is accessible, yet powerful, providing powerful tools needed for large, robust applications. A superb inversion of control container, expressive migration system, and tightly integrated unit testing support give you the tools you need to build any application with which you are tasked.
+3.  重置密码
+    a)  邮箱重置密码
+    b)  手机重置密码
+4.  游客浏览
 
-## Official Documentation
+5.  显示热门帖子
 
-Documentation for the framework can be found on the [Laravel website](http://laravel.com/docs).
+6.  发帖
 
-## Contributing
+7.  回复帖子
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](http://laravel.com/docs/contributions).
+8.  评论回复
 
-### License
+9.  用户等级系统
 
-The Laravel framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)
+10. 建立贴吧
+
+API 说明：
+
+1.登录接口
+地址：202.115.12.170:8000/API/auth
+请求方法：POST

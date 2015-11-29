@@ -20,4 +20,8 @@ class School extends Model {
 	 */
 	protected $fillable = ['name', 'email_tail','pics','text'];
 
+	protected function getDateFormat()
+    {
+        return 'U';
+    }
 }

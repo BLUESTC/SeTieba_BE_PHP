@@ -23,4 +23,8 @@ class Post extends Model {
     public function floors(){
         return $this->hasMany('App\Floor','pid','pid');
     }
+	protected function getDateFormat()
+    {
+        return 'U';
+    }
 }

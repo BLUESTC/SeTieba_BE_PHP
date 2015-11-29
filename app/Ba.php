@@ -20,5 +20,4 @@ class Ba extends Model
 	 */
 	protected $fillable = ['name'];
 
-
 }

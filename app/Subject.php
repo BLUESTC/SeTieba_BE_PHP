@@ -12,6 +12,11 @@ class Subject extends Model {
 	 * @var array
 	 */
 	protected $fillable = ['subject','pics','text'];
-
+    
+	
+	protected function getDateFormat()
+    {
+        return 'U';
+    }
 
 }

@@ -6,10 +6,17 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Auth;
 use App\Post;
+use App\Floor;
+use App\Comment;
 
+/* 
+ *贴子相关控制器
+ *
+ */
 class PostController extends Controller {
 
     /**
+	 *获取热门帖子
      * Display a listing of the resource.
      *
      * @return Response
@@ -28,18 +35,8 @@ class PostController extends Controller {
         $hotPosts=Post::orderBy("last_comment_at","desc")->skip($skip)->take($limit)->get();
         return response()->json(["errno"=>0,"msg"=>"succes","hotSum"=>$hotPosts->count(),"posts"=>$hotPosts]);
     }
-
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
+	 *发帖
      * Store a newly created resource in storage.
      *
      * @return Response
@@ -74,6 +71,7 @@ class PostController extends Controller {
     }
 
     /**
+	 *显示帖子详情
      * Display the specified resource.
      *
      * @param  int  $id
@@ -91,18 +89,32 @@ class PostController extends Controller {
             return response()->json(["errno"=>1,"msg"=>"post not fount"]);
         }
     }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
+	
+	//获取帖子的楼和楼的评论
+	public function floorsAndComments(Request $request){
+		if(!(Auth::check())){
+            return response()->json(["errno"=>2,"msg"=>"require authentication"]);
+        }
+		$id=$request->input('id');
+		$skip=$request->input("skip");
+		$limit=$request->input("limit");
+		$post=Post::find($id);
+		if($post){
+			$floors=$post->floors()->skip($skip==null?0:$skip)->limit($limit==null?10:$limit)->get();
+			$fArr=array();
+			foreach($floors as $k=>$f){
+				$coms=$f->comments;
+				$fA=$f->toArray();
+				$fA["comments"]=$coms;
+				$fA["commentSum"]=$coms->count();
+				$fArr[]=$fA;
+			}
+			return response()->json(["errno"=>0,"msg"=>"success","floorSum"=>$floors->count(),"floors"=>$fArr]);
+		}else{
+			return response()->json(["errno"=>1,"msg"=>"post not fount"]);
+		}
+	}
+	
     /**
      * Update the specified resource in storage.
      *
