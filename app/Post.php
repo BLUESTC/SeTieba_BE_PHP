@@ -1,12 +1,17 @@
 <?php namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use App\User;
 use App\Floor;
 //帖子模型
 class Post extends Model {
 	protected $table = 'posts';
     protected $primaryKey ='pid';
+	
+	use SoftDeletes;
+
+    protected $dates = ['deleted_at'];
 
 	/**
 	 * The attributes that are mass assignable.

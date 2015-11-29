@@ -18,7 +18,7 @@ class CreateSchoolsTable extends Migration {
             $table->string('name');
             $table->string('email_tail');
             $table->json('pics')->nullable();
-            $table->string('text');
+            $table->string('desc');
 			$table->timestamps();
 		});
 	}

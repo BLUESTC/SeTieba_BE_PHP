@@ -16,6 +16,8 @@ class CreateBasTable extends Migration {
 		{
 			$table->increments('b_id');
 			$table->string('name');
+			$table->string('desc');
+			$table->string('pics');
 			$table->timestamps();
 		});
 	}

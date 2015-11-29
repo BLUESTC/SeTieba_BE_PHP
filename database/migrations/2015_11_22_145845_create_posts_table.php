@@ -26,6 +26,7 @@ class CreatePostsTable extends Migration {
             $table->bigInteger('last_comment_id');
             $table->timestamps();
             $table->foreign('uid')->references('id')->on('users');
+			$table->softDeletes();
 		});
 	}
 

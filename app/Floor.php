@@ -1,13 +1,17 @@
 <?php namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Comment;
 use App\Post;
 
 class Floor extends Model {
 	protected $table = 'floors';
     protected $primaryKey ='fid';
+	
+	use SoftDeletes;
 
+    protected $dates = ['deleted_at'];
 	/**
 	 * The attributes that are mass assignable.
 	 *

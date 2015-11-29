@@ -23,6 +23,7 @@ class CreateFloorsTable extends Migration {
             $table->timestamps();
             $table->foreign('uid')->references('id')->on('users');
             $table->foreign('pid')->references('pid')->on('posts');
+			$table->softDeletes();
 		});
 	}
 
