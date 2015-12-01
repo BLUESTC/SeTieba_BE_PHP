@@ -137,7 +137,27 @@ class PostController extends Controller {
      */
     public function destroy($id)
     {
-        //
+		if(!(Auth::check())){
+            return response()->json(["errno"=>2,"msg"=>"require authentication"]);
+        }
+		$post=Post::find($id);
+		if(!$post){
+			return response()->json(['errno'=>3,'msg'=>'post not fount']);
+		}
+		if($post->uid!==Auth::user()->id){
+			return response()->json(['errno'=>1,'msg'=>'this post does not belong to you']);
+		}
+		//删除帖子的所有楼和评论
+		$floors=$post->floors;
+		foreach($floors as $f){
+			$comments=$f->comments;
+			foreach($comments as $c){
+				$c->delete();
+			}
+			$f->delete();
+		}
+		$post->delete();
+        return response()->json(['errno'=>0,'msg'=>'success']);
     }
 
 }
