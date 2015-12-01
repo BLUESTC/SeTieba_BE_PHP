@@ -3,3 +3,4 @@
 /storage
 /config/database.php
 .env
+/.vscode

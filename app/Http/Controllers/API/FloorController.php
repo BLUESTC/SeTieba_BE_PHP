@@ -81,7 +81,24 @@ class FloorController extends Controller {
 	 */
 	public function destroy($id)
 	{
-		//
+		if(!(Auth::check())){
+            return response()->json(["errno"=>2,"msg"=>"require authentication"]);
+        }
+		$floor=Floor::find($id);
+		if(!$floor){
+			return response()->json(['errno'=>3,'msg'=>'floor not fount']);
+		}
+		if($floor->uid!==Auth::user()->id){
+			return response()->json(['errno'=>1,'msg'=>'this floor does not belong to you']);
+		}
+
+		$comments=$floor->comments;
+		foreach($comments as $c){
+			$c->delete();
+		}
+		$floor->delete();
+	
+        return response()->json(['errno'=>0,'msg'=>'success']);
 	}
 
 }

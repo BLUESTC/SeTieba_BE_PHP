@@ -28,4 +28,6 @@ Route::get('api/hotPosts','API\PostController@index');
 Route::resource('/api/post','API\PostController');
 Route::get('api/floorDetail','API\PostController@floorsAndComments');
 Route::post('/api/replyPost','API\FloorController@store');
+Route::delete('/api/floor/{id}','API\FloorController@destory');
 Route::post('/api/comFloor','API\CommentController@store');
+Route::delete('/api/comment/{id}','API\CommentController@destory');

@@ -109,7 +109,18 @@ class CommentController extends Controller {
 	 */
 	public function destroy($id)
 	{
-		//
+		if(!(Auth::check())){
+            return response()->json(["errno"=>2,"msg"=>"require authentication"]);
+        }
+		$c=Comment::find($id);
+		if(!$floor){
+			return response()->json(['errno'=>3,'msg'=>'Comment not fount']);
+		}
+		if($floor->uid!==Auth::user()->id){
+			return response()->json(['errno'=>1,'msg'=>'this comment does not belong to you']);
+		}
+		$c->delete();
+        return response()->json(['errno'=>0,'msg'=>'success']);
 	}
 
 }
