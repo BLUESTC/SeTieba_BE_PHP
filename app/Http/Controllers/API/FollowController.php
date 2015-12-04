@@ -46,11 +46,11 @@ class FollowController extends Controller {
 			return response()->json(['errno'=>2,'msg'=>'require authentication']);
 		}
 		$ba_id=$request->input('ba_id');
-		try{
-			$user->bas()->attach($ba_id);
-		}catch(Exception $e){
-			return response()->json(['errno'=>4,'msg'=>'exception msg:'.$e.getMessage()]);
+		if(!$ba_id){
+			return response()->json(['errno'=>4,'msg'=>'require ba_id']);
 		}
+
+		$user->bas()->attach($ba_id);
 
 		return response()->json(['errno'=>0,'msg'=>'success']);
 	}
