@@ -23,8 +23,8 @@ class PostController extends Controller {
      */
     public function index(Request $request)
     {
-        $limit=$request->input("limit");
-        $skip=$request->input("skip");
+        $limit=$request->input('limit');
+        $skip=$request->input('skip');
         if(Auth::check()){
             $limit=$limit==null?20:$limit;
             $skip=$skip==null?0:$skip;
@@ -32,8 +32,8 @@ class PostController extends Controller {
             $limit=10;
             $skip=1;
         }
-        $hotPosts=Post::orderBy("last_comment_at","desc")->skip($skip)->take($limit)->get();
-        return response()->json(["errno"=>0,"msg"=>"succes","hotSum"=>$hotPosts->count(),"posts"=>$hotPosts]);
+        $hotPosts=Post::orderBy('last_comment_at','desc')->skip($skip)->take($limit)->get();
+        return response()->json(['errno'=>0,'msg'=>'succes','hotSum'=>$hotPosts->count(),'posts'=>$hotPosts]);
     }
     /**
 	 *发帖
@@ -44,29 +44,29 @@ class PostController extends Controller {
     public function store(Request $request)
     {
         if(!Auth::check()){
-            return response()->json(["errno"=>2,"msg"=>"require authentication"]);
+            return response()->json(['errno'=>2,'msg'=>'require authentication']);
 
         }
-        $title=$request->input("title");
-        $content=$request->input("content");
-        $subject_id=$request->input("subject_id");
-        $ba_id=$request->input("ba_id");
+        $title=$request->input('title');
+        $content=$request->input('content');
+        $subject_id=$request->input('subject_id');
+        $ba_id=$request->input('ba_id');
         if((!$title)||(!$content)||(!$subject_id)||(!$ba_id)){
-            return response()->json(["errno"=>3,"msg"=>"need title ,content ,subject_id,ba_id"]);
+            return response()->json(['errno'=>3,'msg'=>'need title ,content ,subject_id,ba_id']);
         }
 
         $post=new Post;
         $post->uid=Auth::user()->id;
         $post->title=$title;
         $post->content=$content;
-        $post->pics=$request->input("pics");
+        $post->pics=$request->input('pics');
         $post->subject_id=$subject_id;
         $post->ba_id=$ba_id;
-        $post->at_users=$request->input("at_users");
+        $post->at_users=$request->input('at_users');
         $post->last_comment_id=$post->uid;
         //$post->last_comment_at=time();
         $post->save();
-        return response()->json(["errno"=>1,"msg"=>"success","pid"=>$post->pid]);
+        return response()->json(['errno'=>0,'msg'=>'success','pid'=>$post->pid]);
 
     }
 
@@ -80,27 +80,27 @@ class PostController extends Controller {
     public function show($id)
     {
         if(!(Auth::check())){
-            return response()->json(["errno"=>2,"msg"=>"require authentication"]);
+            return response()->json(['errno'=>2,'msg'=>'require authentication']);
         }
         $post=Post::find($id);
         if($post){
-            return response()->json(["errno"=>0,"msg"=>"success","post"=>$post]);
+            return response()->json(['errno'=>0,'msg'=>'success','post'=>$post]);
         }else{
-            return response()->json(["errno"=>1,"msg"=>"post not fount"]);
+            return response()->json(['errno'=>1,'msg'=>'post not fount']);
         }
     }
 	
 	//获取帖子的楼和楼的评论
 	public function floorsAndComments(Request $request){
 		if(!(Auth::check())){
-            return response()->json(["errno"=>2,"msg"=>"require authentication"]);
+            return response()->json(['errno'=>2,'msg'=>'require authentication']);
         }
 		$id=$request->input('pid');
 		if(!$id){
-			return response()->json(["errno"=>1,"msg"=>"require pid"]);
+			return response()->json(['errno'=>1,'msg'=>'require pid']);
 		}
-		$skip=$request->input("skip");
-		$limit=$request->input("limit");
+		$skip=$request->input('skip');
+		$limit=$request->input('limit');
 		$post=Post::find($id);
 		if($post){
 			$floors=$post->floors()->take($limit===null?10:$limit)->skip($skip===null?1:$skip)->get();
@@ -108,13 +108,13 @@ class PostController extends Controller {
 			foreach($floors as $k=>$f){
 				$coms=$f->comments;
 				$fA=$f->toArray();
-				$fA["comments"]=$coms;
-				$fA["commentSum"]=$coms->count();
+				$fA['comments']=$coms;
+				$fA['commentSum']=$coms->count();
 				$fArr[]=$fA;
 			}
-			return response()->json(["errno"=>0,"msg"=>"success","floorSum"=>$floors->count(),"floors"=>$fArr]);
+			return response()->json(['errno'=>0,'msg'=>'success','floorSum'=>$floors->count(),'floors'=>$fArr]);
 		}else{
-			return response()->json(["errno"=>1,"msg"=>"post not fount"]);
+			return response()->json(['errno'=>1,'msg'=>'post not fount']);
 		}
 	}
 	
@@ -138,7 +138,7 @@ class PostController extends Controller {
     public function destroy($id)
     {
 		if(!(Auth::check())){
-            return response()->json(["errno"=>2,"msg"=>"require authentication"]);
+            return response()->json(['errno'=>2,'msg'=>'require authentication']);
         }
 		$post=Post::find($id);
 		if(!$post){

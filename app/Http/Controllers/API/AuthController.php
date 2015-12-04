@@ -106,16 +106,17 @@ class AuthController extends Controller {
         $email=$request->input('email');
 
         if((!$userName)||(!$password)||(!$email)){
-            return response()->json(['errno'=> 2,'msg'=>"username,password,email are required"]);
-        }else if(User::where("email",$email)->get()->count()!==0){
-            return response()->json(['errno'=> 1,'msg'=>"sorry,your email has been registered"]);
+            return response()->json(['errno'=> 2,'msg'=>'username,password,email are required']);
+        }else if(User::where('email',$email)->get()->count()!==0){
+            return response()->json(['errno'=> 1,'msg'=>'sorry,your email has been registered']);
         }else{
             $user=new User;
             $user->name=$userName;
             $user->password=bcrypt($password);
             $user->email=$email;
-            $user->save();
-            return response()->json(['errno'=>0,'msg'=> "thanks for register in:".$userName]);
+			$user->save();
+
+            return response()->json(['errno'=>0,'msg'=> 'thanks for register in:'.$userName]);
         }
     }
 
