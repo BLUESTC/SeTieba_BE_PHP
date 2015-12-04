@@ -27,29 +27,29 @@ class FloorController extends Controller {
 	public function store(Request $request)
 	{
 		if(!Auth::check()){
-	       return response()->json(["errno"=>2,"msg"=>"require authentication"]);
+	       return response()->json(['errno'=>2,'msg'=>'require authentication']);
 		}
 		$pid=$request->input('pid');
 		$content=$request->input('content');
 		if((!$pid)||(!$content)){
-			return response()->json(["errno"=>1,"msg"=>"require pid and content"]);
+			return response()->json(['errno'=>1,'msg'=>'require pid and content']);
 		}
 	
 		$post=Post::find($pid);
 		if(!$post){
-			return response()->json(["errno"=>3,"msg"=>"post not found"]);
+			return response()->json(['errno'=>3,'msg'=>'post not found']);
 		}
 		
 		$floor = new Floor;
 		$floor->pid=$pid;
 		$floor->uid=Auth::user()->id;
 		$floor->content=$content;
-		$floor->pics=$request->input("pics");
-		$floor->at_users=$request->input("at_users");
+		$floor->pics=$request->input('pics');
+		$floor->at_users=$request->input('at_users');
 		
 		$floor->save();
 		
-		return response()->json(["errno"=>0,"msg"=>"success",'floor'=>$floor]);
+		return response()->json(['errno'=>0,'msg'=>'success','floor'=>$floor]);
 	}
 
 	/**
@@ -82,7 +82,7 @@ class FloorController extends Controller {
 	public function destroy($id)
 	{
 		if(!(Auth::check())){
-            return response()->json(["errno"=>2,"msg"=>"require authentication"]);
+            return response()->json(['errno'=>2,'msg'=>'require authentication']);
         }
 		$floor=Floor::find($id);
 		if(!$floor){

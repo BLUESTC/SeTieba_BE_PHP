@@ -15,9 +15,9 @@ class CreateBasTable extends Migration {
 		Schema::create('bas', function(Blueprint $table)
 		{
 			$table->increments('b_id');
-			$table->string('name');
+			$table->string('name')->unique();
 			$table->string('desc_text');
-			$table->string('pics');
+			$table->string('pics')->nullable();
 			$table->timestamps();
 		});
 	}

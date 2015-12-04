@@ -40,18 +40,18 @@ class CommentController extends Controller {
 	public function store(Request $request)
 	{
 		if(!Auth::check()){
-			return response()->json(["errno"=>2,"msg"=>"require authentication"]);
+			return response()->json(['errno'=>2,'msg'=>'require authentication']);
 		}
-		$fid=$request->input("fid");
-		$content=$request->input("content");
+		$fid=$request->input('fid');
+		$content=$request->input('content');
 		
 		if((!$fid)||(!$content)){
-			return response()->json(["errno"=>1,"msg"=>"require fid and content"]);
+			return response()->json(['errno'=>1,'msg'=>'require fid and content']);
 		}
 		
 		$floor=Floor::find($fid);
 		if(!$floor){
-			return response()->json(["errno"=>3,"msg"=>"floor not found"]);
+			return response()->json(['errno'=>3,'msg'=>'floor not found']);
 		}
 		
 		$comm=new Comment;
@@ -63,8 +63,9 @@ class CommentController extends Controller {
 		$comm->at_users=$request->input('at_users');
 		$comm->pics-$request->input('pics');
 		
-		$comm->save();
-		return response()->json(["errno"=>0,"msg"=>"success","comment"=>$comm]);
+		$comm->save();		
+
+		return response()->json(['errno'=>0,'msg'=>'success','comment'=>$comm]);
 		
 	}
 
@@ -110,7 +111,7 @@ class CommentController extends Controller {
 	public function destroy($id)
 	{
 		if(!(Auth::check())){
-            return response()->json(["errno"=>2,"msg"=>"require authentication"]);
+            return response()->json(['errno'=>2,'msg'=>'require authentication']);
         }
 		$c=Comment::find($id);
 		if(!$floor){
@@ -119,7 +120,8 @@ class CommentController extends Controller {
 		if($floor->uid!==Auth::user()->id){
 			return response()->json(['errno'=>1,'msg'=>'this comment does not belong to you']);
 		}
-		$c->delete();
+		
+		c->delete();
         return response()->json(['errno'=>0,'msg'=>'success']);
 	}
 

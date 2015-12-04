@@ -8,6 +8,7 @@ use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use App\Post;
 use App\Comment;
 use App\Floor;
+use App\Ba;
 
 class User extends Model implements AuthenticatableContract, CanResetPasswordContract {
 
@@ -45,4 +46,8 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     public function comments(){
         return $this->hasMany('App\Comment','from_id','id');
     }
+	
+	public function bas(){
+		return $this->belongsToMany('App\Ba','ba_user','user_id','ba_id');
+	}
 }
