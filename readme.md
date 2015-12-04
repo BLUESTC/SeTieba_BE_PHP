@@ -8,4 +8,4 @@ $mv env.example env
 $mv config/database.bak config/database.php
 $mkdir storage&& mkdir storage/app && mkdir storage/framework && mkdir storage/logs&&chmod -R storage
 ```
-
+之后你还需要配置.env和config/database.php中的数据库配置，另外配置httpd开始rewrite
