@@ -60,6 +60,9 @@ Route::post('api/user/ba','API\FollowController@store');
 
 //获取用户关注的贴吧列表
 Route::get('api/user/ba','API\FollowController@index');
+<<<<<<< HEAD
 
 //用户删除关注的贴吧
 Route::delete('api/user/ba','API\FollowController@destroy');
+=======
+>>>>>>> origin/master
