@@ -8,10 +8,6 @@ $mv env.example env
 $mv config/database.bak config/database.php
 <<<<<<< HEAD
 $mkdir storage&& mkdir storage/app && mkdir storage/framework && mkdir storage/logs&&chmod -R storage
-```
-之后你还需要配置.env和config/database.php中的数据库配置，另外配置httpd开始rewrite
-=======
 $mkdir storage&& mkdir storage/app && mkdir storage/framework && mkdir storage/logs&&chmod -R 777 storage
 ```
 之后你还需要配置.env和config/database.php中的数据库配置，另外配置httpd开启rewrite 模块
->>>>>>> origin/master

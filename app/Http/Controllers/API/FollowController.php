@@ -5,10 +5,7 @@ use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
 use Auth;
-<<<<<<< HEAD
-use \Illuminate\Support\Facades\DB;
-=======
->>>>>>> origin/master
+use Illuminate\Support\Facades\DB;
 
 //用户关注贴吧控制器
 class FollowController extends Controller {
@@ -98,7 +95,7 @@ class FollowController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-<<<<<<< HEAD
+
 	public function destroy(Request $request)
 	{
 
@@ -108,12 +105,9 @@ class FollowController extends Controller {
 			DB::table('ba_user')->where('user_id',$user_id)->where('ba_id',$ba_id)->delete();
 			return response()->json(['errno'=>0,'msg'=>'success']);
 		}
-		else return response()->json(['errno'=>1,'msg'=>'cannot found this collection']);
-=======
-	public function destroy($id)
-	{
-		//
->>>>>>> origin/master
+		else {
+			return response()->json(['errno'=>1,'msg'=>'cannot found this collection']);
+		}
 	}
 
 }
