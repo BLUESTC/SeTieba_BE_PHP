@@ -103,7 +103,7 @@ class PostController extends Controller {
 		$limit=$request->input('limit');
 		$post=Post::find($id);
 		if($post){
-			$floors=$post->floors()->take($limit===null?10:$limit)->skip($skip===null?1:$skip)->get();
+			$floors=$post->floors()->skip($skip===null?0:$skip-1)->take($limit===null?10:$limit)->get();
 			$fArr=array();
 			foreach($floors as $k=>$f){
 				$coms=$f->comments;
