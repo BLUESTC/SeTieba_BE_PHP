@@ -4,9 +4,9 @@
 $git clone https://github.com/BLUESTC/SeTieba_BE_PHP
 $cd SeTieBa_BE_PHP
 $composer install
-$mv env.example env
+$mv .env.example env
 $mv config/database.bak config/database.php
-$mkdir storage&& mkdir storage/app && mkdir storage/framework && mkdir storage/logs&&chmod -R 777 storage
+$mkdir -p storage/logs && mkdir storage/logs && mkdir -p storage/framework/cache && mkdir storage/framework/views &&mkdir -p storage/framework/sessions &&chmod -R 777 storage
 ```
 之后你还需要配置.env和config/database.php中的数据库配置，另外配置httpd开启rewrite 模块
 
