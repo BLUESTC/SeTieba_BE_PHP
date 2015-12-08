@@ -7,11 +7,12 @@ use App\Post;
 
 class Floor extends Model {
 	protected $table = 'floors';
-    protected $primaryKey ='fid';
+   	protected $primaryKey ='fid';
+	protected $touches = ['post'];
 	
 	use SoftDeletes;
 
-    protected $dates = ['deleted_at'];
+    	protected $dates = ['deleted_at'];
 	/**
 	 * The attributes that are mass assignable.
 	 *

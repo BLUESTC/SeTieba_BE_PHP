@@ -20,6 +20,7 @@ class FloorController extends Controller {
 		//
 	}
 	/**
+	 *  信件楼
 	 * Store a newly created resource in storage.
 	 *
 	 * @return Response
@@ -46,9 +47,9 @@ class FloorController extends Controller {
 		$floor->content=$content;
 		$floor->pics=$request->input('pics');
 		$floor->at_users=$request->input('at_users');
-		
 		$floor->save();
-		
+		//更新时间戳
+		$floor->post->touch();
 		return response()->json(['errno'=>0,'msg'=>'success','floor'=>$floor]);
 	}
 

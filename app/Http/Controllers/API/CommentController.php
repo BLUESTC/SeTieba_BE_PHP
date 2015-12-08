@@ -63,7 +63,10 @@ class CommentController extends Controller {
 		$comm->at_users=$request->input('at_users');
 		$comm->pics-$request->input('pics');
 		
-		$comm->save();		
+		$comm->save();	
+		//更新最后更新时间戳
+		$comm->floor->touch();
+		$comm->floor->post->touch();	
 
 		return response()->json(['errno'=>0,'msg'=>'success','comment'=>$comm]);
 		

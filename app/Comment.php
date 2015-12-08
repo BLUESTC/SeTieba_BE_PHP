@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Comment extends Model {
     protected $table = 'comments';
     protected $primaryKey ='cid';
-	
-	use SoftDeletes;
+    protected $touches = ['floor'];
+    use SoftDeletes;
 
     protected $dates = ['deleted_at'];
 	/**
