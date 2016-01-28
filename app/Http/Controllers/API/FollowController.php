@@ -104,11 +104,11 @@ class FollowController extends Controller {
 		if(!$user){
 			return response()->json(['errno'=>2,'msg'=>'require authentication']);
 		}
-		
+
 		if(!$ba_id){
 			return response()->json(['errno'=>1,'msg'=>'require ba_id']);
 		}
-		
+
 		$user_id=$user->id;
 
 		if (DB::table('ba_user')->where('user_id',$user_id)->where('ba_id',$ba_id)->get()){

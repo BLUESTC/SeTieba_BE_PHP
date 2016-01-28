@@ -12,8 +12,8 @@ $mkdir -p storage/logs && mkdir storage/logs && mkdir -p storage/framework/cache
 
 如果你的文件夹权限不正确，运行
 ```shell
-$cd SeTieBa_BE_PHP 
+$cd SeTieBa_BE_PHP
 $find ./ -type d -exec chmod 755 {} +
 $find ./ -type f -exec chmod 644 {} +
-$chmod 777 -R storage
+$chmod -R 777 storage
 ```

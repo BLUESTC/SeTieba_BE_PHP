@@ -1,0 +1,770 @@
+Artisan
+php artisan --help OR -h
+php artisan --quiet OR -q
+php artisan --version OR -V
+php artisan --no-interaction OR -n
+php artisan --ansi
+php artisan --no-ansi
+php artisan --env
+php artisan --verbose
+
+php artisan changes
+php artisan clear-compiled
+php artisan down
+php artisan dump-autoload
+php artisan env
+php artisan help
+php artisan list
+php artisan migrate
+php artisan optimize
+php artisan routes
+php artisan serve
+php artisan tinker
+php artisan up
+php artisan workbench
+
+php artisan asset:publish [--bench[="vendor/package"]] [--path[="..."]] [package]
+php artisan auth:reminders-table
+php artisan cache:clear
+php artisan command:make name [--command[="..."]] [--path[="..."]] [--namespace[="..."]]
+php artisan config:publish
+php artisan controller:make [--bench="vendor/package"]
+php artisan db:seed [--class[="..."]] [--database[="..."]]
+php artisan key:generate
+php artisan migrate [--bench="vendor/package"] [--database[="..."]] [--path[="..."]] [--package[="..."]] [--pretend] [--seed]
+php artisan migrate:install [--database[="..."]]
+php artisan migrate:make name [--bench="vendor/package"] [--create] [--package[="..."]] [--path[="..."]] [--table[="..."]]
+php artisan migrate:refresh [--database[="..."]] [--seed]
+php artisan migrate:reset [--database[="..."]] [--pretend]
+php artisan migrate:rollback [--database[="..."]] [--pretend]
+php artisan queue:listen [--queue[="..."]] [--delay[="..."]] [--memory[="..."]] [--timeout[="..."]] [connection]
+php artisan queue:subscribe [--type[="..."]] queue url
+php artisan queue:work [--queue[="..."]] [--delay[="..."]] [--memory[="..."]] [--sleep] [connection]
+php artisan session:table
+php artisan view:publish [--path[="..."]] package
+php artisan tail [--path[="..."]] [--lines[="..."]] [connection]
+
+Composer
+composer create-project laravel/laravel folder_name
+composer install
+composer update
+composer dump-autoload [--optimize]
+composer self-update
+
+Routing
+Route::get('foo', function(){});
+Route::get('foo', 'ControllerName@function');
+Route::controller('foo', 'FooController');
+Route::resource('posts',' 'PostsController');
+
+Triggering Errors
+App::abort(404);
+App::missing(function($exception){});
+throw new NotFoundHttpException;
+
+Route Parameters
+Route::get('foo/{bar}', function($bar){});
+Route::get('foo/{bar?}', function($bar = 'bar'){});
+
+HTTP Verbs
+Route::any('foo', function(){});
+Route::post('foo', function(){});
+Route::put('foo', function(){});
+Route::patch('foo', function(){});
+Route::delete('foo', function(){});
+Route::resource('foo', 'FooController');
+
+Secure Routes
+Route::get('foo', array('https', function(){}));
+Route Constraints
+Route::get('foo/{bar}', function($bar){})
+	->where('bar', '[0-9]+');
+Route::get('foo/{bar}/{baz}', function($bar, $baz){})
+	->where(array('bar' => '[0-9]+', 'baz' => '[A-Za-z]'))
+
+Route::pattern('bar', '[0-9]+')
+
+Filters
+Route::filter('auth', function(){});
+Route::filter('foo', 'FooFilter');
+Route::get('foo', array('before' => 'auth', function(){}));
+Route::get('foo', array('before' => 'auth', function(){}));
+Route::group(array('before' => 'auth'), function(){});
+Route::when('foo/*', 'foo');
+Route::when('foo/*', 'foo', array('post'));
+
+Named Routes
+Route::currentRouteName();
+Route::get('foo/bar', array('as' => 'foobar', function(){}));
+
+Route Prefixing
+Route::group(array('prefix' => 'foo'), function(){})
+
+Sub-Domain Routing
+Route::group(array('domain' => '{sub}.example.com'), function(){});
+
+URLs
+URL::full();
+URL::current();
+URL::previous();
+URL::to('foo/bar', $parameters, $secure);
+URL::action('FooController@method', $parameters, $absolute);
+URL::route('foo', $parameters, $absolute);
+URL::secure('foo/bar', $parameters);
+URL::asset('css/foo.css', $secure);
+URL::secureAsset('css/foo.css');
+URL::isValidUrl('http://example.com');
+URL::getRequest();
+URL::setRequest($request);
+URL::getGenerator();
+URL::setGenerator($generator);
+
+Events
+Event::fire('foo.bar', array($bar));
+Event::listen('foo.bar', function($bar){});
+Event::listen('foo.*', function($bar){});
+Event::listen('foo.bar', 'FooHandler', 10);
+Event::listen('foo.bar', 'BarHandler', 5);
+Event::listen('foor.bar', function($event){ return false; });
+Event::queue('foo', array($bar));
+Event::flusher('foo', function($bar){});
+Event::flush('foo');
+Event::forget('foo');
+Event::subscribe(new FooEventHandler);
+
+Database
+DB::connection('connection_name');
+DB::statement('drop table users');
+DB::listen(function($sql, $bindings, $time){ code_here; });
+DB::transaction(function(){ transaction_code_here; });
+DB::table('users')->remember($time)->get();
+DB::raw('sql expression here');
+
+Selects
+DB::table('name')->get();
+DB::table('name')->distinct()->get();
+DB::table('name')->select('column as column_alias')->get();
+DB::table('name')->where('name', '=', 'John')->get();
+DB::table('name')->whereBetween('column', array(1, 100))->get();
+DB::table('name')->whereIn('column', array(1, 2, 3))->get();
+DB::table('name')->whereNotIn('column', array(1, 2, 3))->get();
+DB::table('name')->whereNull('column')->get();
+DB::table('name')->whereNotNull('column')->get();
+DB::table('name')->groupBy('column')->get();
+DB::table('name')->orderBy('column')->get();
+DB::table('name')->having('count', '>', 100)->get();
+DB::table('name')->skip(10)->take(5)->get();
+DB::table('name')->first();
+DB::table('name')->pluck('column');
+DB::table('name')->lists('column');
+DB::table('name')->join('table', 'name.id', '=', 'table.id')
+    ->select('name.id', 'table.email');
+
+Inserts, Updates, Deletes
+DB::table('name')->insert(array('name' => 'John', 'email' => 'john@example.com'));
+DB::table('name')->insertGetId(array('name' => 'John', 'email' => 'john@example.com'));
+DB::table('name')->insert(
+	array('name' => 'John', 'email' => 'john@example.com')
+	array('name' => 'James', 'email' => 'james@example.com')
+);
+DB::table('name')->where('name', '=', 'John')
+	->update(array('email' => 'john@example2.com'));
+DB::table('name')->delete();
+DB::table('name')->where('id', '>', '10')->delete();
+DB::table('name')->truncate();
+
+Aggregates
+DB::table('name')->count();
+DB::table('name')->max('column');
+DB::table('name')->min('column');
+DB::table('name')->avg('column');
+DB::table('name')->sum('column');
+DB::table('name')->increment('column');
+DB::table('name')->increment('column', $amount);
+DB::table('name')->decrement('column');
+DB::table('name')->decrement('column', $amount);
+DB::table('name')->remember(5)->get();
+DB::table('name')->remember(5, 'cache-key-name')->get();
+DB::table('name')->cacheTags('my-key')->remember(5)->get();
+DB::table('name')->cacheTags(array('my-first-key','my-second-key'))->remember(5)->get();
+
+Raw Expressions
+DB::select('select * from users where id = ?', array('value'));
+DB::table('name')->select(DB::raw('count(*) as count, column2'))->get();
+
+Eloquent
+Model::create(array('key' => 'value'));
+Model::fill($attributes);
+Model::destroy(1);
+Model::all();
+Model::find(1);
+Model::find(array('first', 'last'));
+Model::findOrFail(1);
+Model::findOrFail(array('first', 'last'));
+Model::where('foo', '=', 'bar')->get();
+Model::where('foo', '=', 'bar')->first();
+Model::where('foo', '=', 'bar')->firstOrFail();
+Model::where('foo', '=', 'bar')->count();
+Model::where('foo', '=', 'bar')->delete();
+Model::whereRaw('foo = bar and cars = 2', array(20))->get();
+Model::remember(5)->get();
+Model::remember(5, 'cache-key-name')->get();
+Model::cacheTags('my-tag')->remember(5)->get();
+Model::cacheTags(array('my-first-key','my-second-key'))->remember(5)->get();
+Model::on('connection-name')->find(1);
+Model::with('relation')->get();
+Model::all()->take(10);
+Model::all()->skip(10);
+
+Soft Delete
+Model::withTrashed()->where('cars', 2)->get();
+Model::withTrashed()->where('cars', 2)->restore();
+Model::where('cars', 2)->forceDelete();
+Model::onlyTrashed()->where('cars', 2)->get();
+
+Events
+Model::creating(function($model){});
+Model::created(function($model){});
+Model::updating(function($model){});
+Model::updated(function($model){});
+Model::saving(function($model){});
+Model::saved(function($model){});
+Model::deleting(function($model){});
+Model::deleted(function($model){});
+Model::observe(new FooObserver);
+
+Eloquent Configuration
+Eloquent::unguard();
+Eloquent::reguard();
+The Remote Component
+Executing Commands
+SSH::run(array $commands);
+SSH::into($remote)->run(array $commands);
+SSH::run(array $commands, function($line)
+{
+	echo $line.PHP_EOL;
+});
+
+Tasks
+SSH::define($taskName, array $commands);
+SSH::task($taskName, function($line)  {
+	echo $line.PHP_EOL;
+});
+
+SFTP Uploads
+SSH::put($localFile, $remotePath);
+SSH::putString($string, $remotePath);
+
+Schema
+Schema::create('table', function($table)
+{
+    $table->increments('id');
+});
+Schema::connection('foo')->create('table', function($table){});
+Schema::rename($from, $to);
+Schema::drop('table');
+Schema::dropIfExists('table');
+Schema::hasTable('table');
+Schema::hasColumn('table', 'column');
+Schema::table('table', function($table){});
+$table->renameColumn('from', 'to');
+$table->dropColumn(string|array);
+$table->engine = 'InnoDB';
+$table->string('name')->after('email');
+
+Indexes
+$table->string('column')->unique();
+$table->primary('column');
+$table->primary(array('first', 'last'));
+$table->unique('column');
+$table->unique('column', 'key_name');
+$table->unique(array('first', 'last'));
+$table->unique(array('first', 'last'), 'key_name');
+$table->index('column');
+$table->index('column', 'key_name');
+$table->index(array('first', 'last'));
+$table->index(array('first', 'last'), 'key_name');
+$table->dropPrimary('table_column_primary');
+$table->dropUnique('table_column_unique');
+$table->dropIndex('table_column_index');
+
+Foreign Keys
+$table->foreign('user_id')->references('id')->on('users');
+$table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+$table->dropForeign('posts_user_id_foreign');
+
+Column Types
+$table->increments('id');
+$table->bigIncrements('id');
+$table->string('email');
+$table->string('name', 100);
+$table->integer('votes');
+$table->bigInteger('votes');
+$table->smallInteger('votes');
+$table->float('amount');
+$table->double('column', 15, 8);
+$table->decimal('amount', 5, 2);
+$table->boolean('confirmed');
+$table->date('created_at');
+$table->dateTime('created_at');
+$table->time('sunrise');
+$table->timestamp('added_on');
+$table->timestamps();
+$table->softDeletes();
+$table->text('description');
+$table->binary('data');
+$table->enum('choices', array('foo', 'bar'));
+$table->morphs('parent');
+->nullable()
+->default($value)
+->unsigned()
+
+Input
+Input::get('key');
+Input::get('key', 'default');
+Input::has('key');
+Input::all();
+Input::only('foo', 'bar');
+Input::except('foo');
+
+Session Input (flash)
+Input::flash();
+Input::flashOnly('foo', 'bar');
+Input::flashExcept('foo', 'baz');
+Input::old('key','default_value');
+
+Files
+Input::file('filename');
+Input::hasFile('filename');
+Input::file('name')->getRealPath();
+Input::file('name')->getClientOriginalName();
+Input::file('name')->getClientOriginalExtension();
+Input::file('name')->getSize();
+Input::file('name')->getMimeType();
+Input::file('name')->move($destinationPath);
+Input::file('name')->move($destinationPath, $fileName);
+
+Cache
+Cache::put('key', 'value', $minutes);
+Cache::add('key', 'value', $minutes);
+Cache::forever('key', 'value');
+Cache::remember('key', $minutes, function(){ return 'value' });
+Cache::rememberForever('key', function(){ return 'value' });
+Cache::forget('key');
+Cache::has('key');
+Cache::get('key');
+Cache::get('key', 'default');
+Cache::get('key', function(){ return 'default'; });
+Cache::tag('my-tag')->put('key','value', 10);
+Cache::tag('my-tag')->get('key');
+Cache::tag('my-tag')->flush();
+Cache::increment('key');
+Cache::increment('key', $amount);
+Cache::decrement('key');
+Cache::decrement('key', $amount);
+Cache::section('group')->put('key', $value);
+Cache::section('group')->get('key');
+Cache::section('group')->flush();
+
+Cookies
+Cookie::get('key');
+Cookie::forever('key', 'value');
+Cookie::queue('key', 'value', 'minutes');
+$response = Response::make('Hello World');
+$response->withCookie(Cookie::make('name', 'value', $minutes));
+
+Sessions
+Session::get('key');
+Session::get('key', 'default');
+Session::get('key', function(){ return 'default'; });
+Session::put('key', 'value');
+Session::push('foo.bar','value');
+Session::all();
+Session::has('key');
+Session::forget('key');
+Session::flush();
+Session::regenerate();
+Session::flash('key', 'value');
+Session::reflash();
+Session::keep(array('key1', 'key2'));
+
+Requests
+Request::path();
+Request::is('foo/*');
+Request::url();
+Request::segment(1);
+Request::header('Content-Type');
+Request::server('PATH_INFO');
+Request::ajax();
+Request::secure();
+
+Responses
+return Response::make($contents);
+return Response::make($contents, 200);
+return Response::json(array('key' => 'value'));
+return Response::json(array('key' => 'value'))
+	->setCallback(Input::get('callback'));
+return Response::download($filepath);
+return Response::download($filepath, $filename, $headers);
+$response = Response::make($contents, 200);
+$response->header('Content-Type', 'application/json');
+return $response;
+return Response::make($content)
+	->withCookie(Cookie::make('key', 'value'));
+
+Redirects
+return Redirect::to('foo/bar');
+return Redirect::to('foo/bar')->with('key', 'value');
+return Redirect::to('foo/bar')->withInput(Input::get());
+return Redirect::to('foo/bar')->withInput(Input::except('password'));
+return Redirect::to('foo/bar')->withErrors($validator);
+return Redirect::back();
+return Redirect::route('foobar');
+return Redirect::route('foobar', array('value'));
+return Redirect::route('foobar', array('key' => 'value'));
+return Redirect::action('FooController@index');
+return Redirect::action('FooController@baz', array('value'));
+return Redirect::action('FooController@baz', array('key' => 'value'));
+return Redirect::intended('foo/bar');
+
+IoC
+App::bind('foo', function($app){ return new Foo; });
+App::make('foo');
+App::make('FooBar');
+App::singleton('foo', function(){ return new Foo; });
+App::instance('foo', new Foo);
+App::bind('FooRepositoryInterface', 'BarRepository');
+App::register('FooServiceProvider');
+App::resolving(function($object){});
+
+Security
+Passwords
+Hash::make('secretpassword');
+Hash::check('secretpassword', $hashedPassword);
+Hash::needsRehash($hashedPassword);
+
+Auth
+Auth::check();
+Auth::user();
+Auth::attempt(array('email' => $email, 'password' => $password));
+Auth::attempt($credentials, true);
+Auth::once($credentials);
+Auth::login(User::find(1));
+Auth::loginUsingId(1);
+Auth::logout();
+Auth::validate($credentials);
+Auth::basic('username');
+Auth::onceBasic();
+Password::remind($credentials, function($message, $user){});
+
+Encryption
+Crypt::encrypt('secretstring');
+Crypt::decrypt($encryptedString);
+Crypt::setMode('ctr');
+Crypt::setCipher($cipher);
+
+Mail
+Mail::send('email.view', $data, function($message){});
+Mail::send(array('html.view', 'text.view'), $data, $callback);
+Mail::queue('email.view', $data, function($message){});
+Mail::queueOn('queue-name', 'email.view', $data, $callback);
+Mail::later(5, 'email.view', $data, function($message){});
+Mail::pretend();
+
+Messages
+$message->from('email@example.com', 'Mr. Example');
+$message->sender('email@example.com', 'Mr. Example');
+$message->returnPath('email@example.com');
+$message->to('email@example.com', 'Mr. Example');
+$message->cc('email@example.com', 'Mr. Example');
+$message->bcc('email@example.com', 'Mr. Example');
+$message->replyTo('email@example.com', 'Mr. Example');
+$message->subject('Welcome to the Jungle');
+$message->priority(2);
+$message->attach('foo\bar.txt', $options);
+$message->attachData('bar', 'Data Name', $options);
+$message->embed('foo\bar.txt');
+$message->embedData('foo', 'Data Name', $options);
+$message->getSwiftMessage();
+
+Queues
+Queue::push('SendMail', array('message' => $message));
+Queue::push('SendEmail@send', array('message' => $message));
+Queue::push(function($job) use $id {});
+php artisan queue:listen
+php artisan queue:listen connection
+php artisan queue:listen --timeout=60
+php artisan queue:work
+
+Validation
+Validator::make(
+	array('key' => 'Foo'),
+	array('key' => 'required|in:Foo')
+);
+Validator::extend('foo', function($attribute, $value, $params){});
+Validator::extend('foo', 'FooValidator@validate');
+Validator::resolver(function($translator, $data, $rules, $msgs)
+{
+	return new FooValidator($translator, $data, $rules, $msgs);
+});
+
+Rules
+accepted
+active_url
+after:YYYY-MM-DD
+before:YYYY-MM-DD
+alpha
+alpha_dash
+alpha_num
+between:1,10
+confirmed
+date
+date_format:YYYY-MM-DD
+different:fieldname
+email
+exists:table,column
+image
+in:foo,bar,baz
+not_in:foo,bar,baz
+integer
+numeric
+ip
+max:value
+min:value
+mimes:jpeg,png
+regex:[0-9]
+required
+required_if:field,value
+required_with:foo,bar,baz
+required_without:foo,bar,baz
+same:field
+size:value
+unique:table,column,except,idColumn
+url
+
+
+Views
+View::make('path/to/view');
+View::make('foo/bar')->with('key', 'value');
+View::make('foo/bar')->withKey('value');
+View::make('foo/bar', array('key' => 'value'));
+View::exists('foo/bar');
+View::share('key', 'value');
+View::make('foo/bar')->nest('name', 'foo/baz', $data);
+View::composer('viewname', function($view){});
+View::composer(array('view1', 'view2'), function($view){});
+View::composer('viewname', 'FooComposer');
+View::creator('viewname', function($view){});
+
+Blade Templates
+@extends('layout.name')
+@section('name')
+@stop
+@show
+@parent
+@yield('name')
+@include('view.name')
+@include('view.name', array('key' => 'value'));
+@lang('messages.name')
+@choice('messages.name', 1);
+@if
+@else
+@elseif
+@endif
+@unless
+@endunless
+@for
+@endfor
+@foreach
+@endforeach
+@while
+@endwhile
+{{ $var }}
+{{{ $var }}}
+{{-- Blade Comment --}}
+{{{ $name or 'Default' }}}
+@{{ This will not be processed by Blade }}
+
+Forms
+Form::open(array('url' => 'foo/bar', 'method' => 'PUT'));
+Form::open(array('route' => 'foo.bar'));
+Form::open(array('route' => array('foo.bar', $parameter)));
+Form::open(array('action' => 'FooController@method'));
+Form::open(array('action' => array('FooController@method', $parameter)));
+Form::open(array('url' => 'foo/bar', 'files' => true));
+Form::close();
+Form::token();
+Form::model($foo, array('route' => array('foo.bar', $foo->bar)));
+
+
+Form Elements
+Form::label('id', 'Description');
+Form::label('id', 'Description', array('class' => 'foo'));
+Form::text('name');
+Form::text('name', $value);
+Form::text('name', $value, array('class' => 'name'));
+Form::textarea('name');
+Form::textarea('name', $value);
+Form::textarea('name', $value, array('class' => 'name'));
+Form::hidden('foo', $value);
+Form::password('password');
+Form::password('password', array('placeholder' => 'Password'));
+Form::email('name', $value, array());
+Form::file('name', array('class' => 'name'));
+Form::checkbox('name', 'value');
+Form::checkbox('name', 'value', true, array('class' => 'name'));
+Form::radio('name', 'value');
+Form::radio('name', 'value', true, array('class' => 'name'));
+Form::select('name', array('key' => 'value'));
+Form::select('name', array('key' => 'value'), 'key', array('class' => 'name'));
+Form::submit('Submit!');
+Form::macro('fooField', function()
+{
+	return '<input type="custom"/>';
+});
+Form::fooField();
+
+HTML Builder
+HTML::macro('name', function(){});
+HTML::entities($value);
+HTML::decode($value);
+HTML::script($url, $attributes);
+HTML::style($url, $attributes);
+HTML::image($url, $alt, $attributes);
+HTML::link($url, 'title', $attributes, $secure);
+HTML::secureLink($url, 'title', $attributes);
+HTML::linkAsset($url, 'title', $attributes, $secure);
+HTML::linkSecureAsset($url, 'title', $attributes);
+HTML::linkRoute($name, 'title', $parameters, $attributes);
+HTML::linkAction($action, 'title', $parameters, $attributes);
+HTML::mailto($email, 'title', $attributes);
+HTML::email($email);
+HTML::ol($list, $attributes);
+HTML::ul($list, $attributes);
+HTML::listing($type, $list, $attributes);
+HTML::listingElement($key, $type, $value);
+HTML::nestedListing($key, $type, $value);
+HTML::attributes($attributes);
+HTML::attributeElement($key, $value);
+HTML::obfuscate($value);
+
+Strings
+Str::ascii($value)
+Str::camel($value)
+Str::contains($haystack, $needle)
+Str::endsWith($haystack, $needles)
+Str::finish($value, $cap)
+Str::is($pattern, $value)
+Str::length($value)
+Str::limit($value, $limit = 100, $end = '...')
+Str::lower($value)
+Str::words($value, $words = 100, $end = '...')
+Str::plural($value, $count = 2)
+Str::random($length = 16)
+Str::quickRandom($length = 16)
+Str::upper($value)
+Str::title($value)
+Str::singular($value)
+Str::slug($title, $separator = '-')
+Str::snake($value, $delimiter = '_')
+Str::startsWith($haystack, $needles)
+Str::studly($value)
+Str::macro($name, $macro)
+
+Localization
+App::setLocale('en');
+Lang::get('messages.welcome');
+Lang::get('messages.welcome', array('foo' => 'Bar'));
+Lang::has('messages.welcome');
+Lang::choice('messages.apples', 10);
+
+Files
+File::exists('path');
+File::get('path');
+File::getRemote('path');
+File::getRequire('path');
+File::requireOnce('path');
+File::put('path', 'contents');
+File::append('path', 'data');
+File::delete('path');
+File::move('path', 'target');
+File::copy('path', 'target');
+File::extension('path');
+File::type('path');
+File::size('path');
+File::lastModified('path');
+File::isDirectory('directory');
+File::isWritable('path');
+File::isFile('file');
+File::glob($patterns, $flag);
+File::files('directory');
+File::allFiles('directory');
+File::directories('directory');
+File::makeDirectory('path',  $mode = 0777, $recursive = false);
+File::copyDirectory('directory', 'destination', $options = null);
+File::deleteDirectory('directory', $preserve = false);
+File::cleanDirectory('directory');
+
+Helpers
+Arrays
+array_add($array, 'key', 'value');
+array_build($array, function(){});
+array_divide($array);
+array_dot($array);
+array_except($array, array('key'));
+array_fetch($array, 'key');
+array_first($array, function($key, $value){}, $default);
+array_flatten($array);
+array_forget($array, 'foo');
+array_forget($array, 'foo.bar');
+array_get($array, 'foo', 'default');
+array_get($array, 'foo.bar', 'default');
+array_only($array, array('key'));
+array_pluck($array, 'key');
+array_pull($array, 'key');
+array_set($array, 'key', 'value');
+array_set($array, 'key.subkey', 'value');
+array_sort($array, function(){});
+head($array);
+last($array);
+
+Paths
+app_path();
+public_path();
+base_path();
+storage_path();
+
+Strings
+camel_case($value);
+class_basename($class);
+e('<html>');
+starts_with('Foo bar.', 'Foo');
+ends_with('Foo bar.', 'bar.');
+snake_case('fooBar');
+str_contains('Hello foo bar.', 'foo');
+str_finish('foo/bar', '/');
+str_is('foo*', 'foobar');
+str_plural('car');
+str_random(25);
+str_singular('cars');
+studly_case('foo_bar');
+trans('foo.bar');
+trans_choice('foo.bar', $count);
+
+URLs and Links
+action('FooController@method', $parameters);
+link_to('foo/bar', $title, $attributes, $secure);
+link_to_asset('img/foo.jpg', $title, $attributes, $secure);
+link_to_route('route.name', $title, $parameters, $attributes);
+link_to_action('FooController@method', $title, $params, $attrs);
+asset('img/photo.jpg', $title, $attributes);
+secure_asset('img/photo.jpg', $title, $attributes);
+secure_url('path', $parameters);
+route($route, $parameters, $absolute = true);
+url('path', $parameters = array(), $secure = null);
+
+Miscellaneous
+csrf_token();
+dd($value);
+value(function(){ return 'bar'; });
+with(new Foo)->chainedMethod();

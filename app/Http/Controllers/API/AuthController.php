@@ -4,6 +4,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
+use Cache;
 use AuthenticatesAndRegistersUsers;
 use Auth;
 use App\User;
@@ -86,18 +87,24 @@ class AuthController extends Controller {
     }
 
     public function login(Request $request){
+        if (Auth::check()){return "login already";}
         $userName=$request->input('username');
         $password=$request->input('password');
         if(Auth::attempt(['email' => $userName, 'password' => $password])){
             $user=Auth::user();
+            Cache::forever($user['id'],'login');
             return response()->json(['errno'=>0,'msg'=>'login success','user'=>$user]);
         }else{
             return response()->json(['errno'=>1,'msg'=>'wrong username or password']);
         }
     }
+
     public function logout(Request $request){
         $userName=$request->input('username');
+        if (!Auth::check()){return response()->json(['errno'=>1,'msg'=>'you should login first']);}//检查登陆状态
+        Cache::forget(Auth::user()['id']);//从登陆缓存中消除
         Auth::logout();
+        return response()->json(['errno'=>0,'msg'=>'logout success']);
     }
 
     public function register(Request $request){

@@ -38,7 +38,7 @@ class BaController extends Controller {
 	{
 		$name=$request->input('name');
 		$desc_text=$request->input('desc_text');
-		
+
 		if(!Auth::check()){
 			return response()->json(['errno'=>2,'msg'=>'require authentication']);
 		}
