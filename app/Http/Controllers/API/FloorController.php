@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Auth;
 Use App\Floor;
+use Queue;
 use App\Post;
 
 class FloorController extends Controller {
@@ -35,12 +36,13 @@ class FloorController extends Controller {
 		if((!$pid)||(!$content)){
 			return response()->json(['errno'=>1,'msg'=>'require pid and content']);
 		}
-	
+
 		$post=Post::find($pid);
+
 		if(!$post){
 			return response()->json(['errno'=>3,'msg'=>'post not found']);
 		}
-		
+
 		$floor = new Floor;
 		$floor->pid=$pid;
 		$floor->uid=Auth::user()->id;
@@ -50,6 +52,8 @@ class FloorController extends Controller {
 		$floor->save();
 		//更新时间戳
 		$floor->post->touch();
+		//加入推送
+		Queue::push(new Notice($post->uid,$post->pid,$floor->uid.'评论了你的帖子'.$post->pid,'new_commit'));
 		return response()->json(['errno'=>0,'msg'=>'success','floor'=>$floor]);
 	}
 
@@ -98,7 +102,7 @@ class FloorController extends Controller {
 			$c->delete();
 		}
 		$floor->delete();
-	
+
         return response()->json(['errno'=>0,'msg'=>'success']);
 	}
 

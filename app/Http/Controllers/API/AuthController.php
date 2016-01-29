@@ -90,9 +90,10 @@ class AuthController extends Controller {
         if (Auth::check()){return "login already";}
         $userName=$request->input('username');
         $password=$request->input('password');
+        $userAgent=($request->input('useragent'))?$request->input('useragent'):'webSite';
         if(Auth::attempt(['email' => $userName, 'password' => $password])){
             $user=Auth::user();
-            Cache::forever($user['id'],'login');
+            Cache::forever($user['id'],$userAgent);
             return response()->json(['errno'=>0,'msg'=>'login success','user'=>$user]);
         }else{
             return response()->json(['errno'=>1,'msg'=>'wrong username or password']);

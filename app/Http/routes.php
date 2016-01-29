@@ -63,6 +63,3 @@ Route::get('api/user/ba','API\FollowController@index');
 
 //用户删除关注的贴吧
 Route::delete('api/user/ba','API\FollowController@destroy');
-
-//推送逻辑
-Route::get('api/push','API\Push.php');

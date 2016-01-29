@@ -17,3 +17,4 @@ $find ./ -type d -exec chmod 755 {} +
 $find ./ -type f -exec chmod 644 {} +
 $chmod -R 777 storage
 ```
+如果提示找不到文件，运行直接从服务器把storage文件夹拷贝下来

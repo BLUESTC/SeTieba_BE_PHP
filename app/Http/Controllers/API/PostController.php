@@ -2,14 +2,16 @@
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use App\Commands\Notice;
 
 use Illuminate\Http\Request;
 use Auth;
+use Queue;
 use App\Post;
 use App\Floor;
 use App\Comment;
 
-/* 
+/*
  *贴子相关控制器
  *
  */
@@ -66,8 +68,9 @@ class PostController extends Controller {
         $post->last_comment_id=$post->uid;
         //$post->last_comment_at=time();
         $post->save();
+        //返回前应当进行一次消息发布
+        Queue::push(new Notice($post->uid,$post->pid,'你关注的'.$post->uid.'发布了新帖子'.$post->pid,'new_post'));
         return response()->json(['errno'=>0,'msg'=>'success','pid'=>$post->pid]);
-
     }
 
     /**
@@ -89,7 +92,7 @@ class PostController extends Controller {
             return response()->json(['errno'=>1,'msg'=>'post not fount']);
         }
     }
-	
+
 	//获取帖子的楼和楼的评论
 	public function floorsAndComments(Request $request){
 		if(!(Auth::check())){
@@ -117,7 +120,7 @@ class PostController extends Controller {
 			return response()->json(['errno'=>1,'msg'=>'post not fount']);
 		}
 	}
-	
+
     /**
      * Update the specified resource in storage.
      *
