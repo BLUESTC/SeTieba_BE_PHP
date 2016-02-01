@@ -63,3 +63,12 @@ Route::get('api/user/ba','API\FollowController@index');
 
 //用户删除关注的贴吧
 Route::delete('api/user/ba','API\FollowController@destroy');
+
+//获取用户关注的好友列表
+Route::get('api/user/friends','API\FriendsController@index');
+
+//用户关注的好友
+Route::post('api/user/friends','API\FriendsController@store');
+
+//删除用户关注的好友
+Route::delete('api/user/friends','API\FriendsController@destroy');

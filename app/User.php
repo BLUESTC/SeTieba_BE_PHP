@@ -50,4 +50,8 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	public function bas(){
 		return $this->belongsToMany('App\Ba','ba_user','user_id','ba_id');
 	}
+
+	public function followers(){
+		return $this->belongsToMany('App\User','author_follow','author_id','follow_id');
+	}
 }

@@ -39,7 +39,7 @@ class Notice extends Command implements SelfHandling, ShouldBeQueued {
 				$this->new_posts();
 				break;
 			case 'new_commit':
-				new_commit();
+				$this->new_commit();
 				break;
 			default:
 				# code...
@@ -71,7 +71,7 @@ class Notice extends Command implements SelfHandling, ShouldBeQueued {
 			}
 	}
 	public function new_commit(){//通知发帖人，你的帖子被人评论了
-		$userAgent=Cache::get($author_id);
+		$userAgent=Cache::get($this->author_id);
 		switch ($userAgent) {
 			case 'WP':
 				//执行WP推送方案
