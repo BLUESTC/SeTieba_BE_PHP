@@ -64,6 +64,10 @@ class Notice extends Command implements SelfHandling, ShouldBeQueued {
 						//执行安卓推送方案
 						$this->Sending_Anroid();
 						break;
+					case 'webSite':
+						//执行安卓推送方案
+						$this->Sending_WebSite();
+					break;
 					default:
 						//用户没有登录或者是在网络端登陆，不进行推送
 						break;
@@ -121,5 +125,23 @@ class Notice extends Command implements SelfHandling, ShouldBeQueued {
 
 	public function Sending_Anroid($request=null){
 		echo"$this->message";
+	}
+	public function Sending_WebSite($request=null){
+		$to_uid = $this->author_id;
+ $push_api_url = "http://202.115.13.212:2121/";
+ $post_data = array(
+    "type" => "publish",
+       "content" => $this->message,
+          "to" => $to_uid,
+          );
+          $ch = curl_init ();
+          curl_setopt ( $ch, CURLOPT_URL, $push_api_url );
+          curl_setopt ( $ch, CURLOPT_POST, 1 );
+          curl_setopt ( $ch, CURLOPT_HEADER, 0 );
+          curl_setopt ( $ch, CURLOPT_RETURNTRANSFER, 1 );
+          curl_setopt ( $ch, CURLOPT_POSTFIELDS, $post_data );
+          $return = curl_exec ( $ch );
+          curl_close ( $ch );
+          return response()->json($return);
 	}
 }
